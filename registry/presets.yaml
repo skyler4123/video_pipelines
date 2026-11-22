@@ -1,0 +1,11 @@
+animatic:
+  description: Fast blocking pass. Low resolution, short duration, few steps.
+  params: {}
+
+preview:
+  description: Review-quality pass. Higher resolution and more sampling.
+  params: {}
+
+final:
+  description: Delivery-quality pass. Requires explicit approval and pinned tools/models.
+  params: {}

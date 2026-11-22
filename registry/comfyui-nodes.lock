@@ -1,0 +1,10 @@
+# Pin ComfyUI custom-node repositories and commits here.
+#
+# Example:
+# nodes:
+#   - repo: https://github.com/example/ComfyUI-Example
+#     commit: 0123456789abcdef0123456789abcdef01234567
+#     required_classes:
+#       - ExampleNode
+#
+nodes: []

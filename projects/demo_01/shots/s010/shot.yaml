@@ -1,0 +1,26 @@
+schema: 1
+id: s010
+title: "Hero product push-in"
+status: draft
+refs: {}
+render:
+  profile: animatic
+  seed: 123456
+prompt:
+  positive: |
+    A clean product hero shot on a warm neutral background, soft studio
+    lighting, subtle camera push-in, shallow depth of field, minimal motion
+    artifacts, commercial product photography.
+  negative: |
+    warped product, text artifacts, flicker, low quality, duplicate objects,
+    oversaturated, harsh shadows, watermark
+stages:
+  keyframe:
+    model: sdxl-base-1.0
+    output: assets/s010/keyframe/v001
+  video:
+    model: wan2.2-i2v-a14b
+    output: assets/s010/video/v001
+qc:
+  width: 768
+  height: 768

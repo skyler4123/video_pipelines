@@ -1,0 +1,65 @@
+{
+  "$defs": {
+    "ParamMapping": {
+      "additionalProperties": false,
+      "properties": {
+        "node_title": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Node Title"
+        },
+        "node_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Node Id"
+        },
+        "input": {
+          "title": "Input",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "input"
+      ],
+      "title": "ParamMapping",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "default": 1,
+      "title": "Schema",
+      "type": "integer"
+    },
+    "params": {
+      "additionalProperties": {
+        "$ref": "#/$defs/ParamMapping"
+      },
+      "title": "Params",
+      "type": "object"
+    }
+  },
+  "title": "WorkflowMap",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

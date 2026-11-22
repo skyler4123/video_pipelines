@@ -1,0 +1,63 @@
+sdxl-base-1.0:
+  kind: image
+  source: local
+  path: "${MODELS_DIR}/checkpoints/sd_xl_base_1.0.safetensors"
+  sha256: null
+  license: "CreativeML OpenRAIL++-M (verify before commercial delivery)"
+  constraints:
+    width_multiple: 8
+    height_multiple: 8
+  presets:
+    animatic:
+      model.checkpoint: sd_xl_base_1.0.safetensors
+      image.width: 768
+      image.height: 768
+      sampler.steps: 8
+      sampler.cfg: 7.0
+      sampler.sampler_name: euler
+    preview:
+      model.checkpoint: sd_xl_base_1.0.safetensors
+      image.width: 1024
+      image.height: 1024
+      sampler.steps: 20
+      sampler.cfg: 7.0
+      sampler.sampler_name: dpmpp_2m
+    final:
+      model.checkpoint: sd_xl_base_1.0.safetensors
+      image.width: 1024
+      image.height: 1024
+      sampler.steps: 30
+      sampler.cfg: 7.0
+      sampler.sampler_name: dpmpp_2m
+  notes: Replace the checkpoint name with the exact filename installed in ComfyUI.
+
+wan2.2-i2v-a14b:
+  kind: video
+  source: local
+  path: "${MODELS_DIR}/diffusion_models/wan2.2_i2v_a14b.safetensors"
+  sha256: null
+  license: "unknown"
+  constraints:
+    frames: "4n+1"
+    width_multiple: 16
+    height_multiple: 16
+  presets:
+    animatic:
+      video.width: 832
+      video.height: 480
+      video.frames: 49
+      sampler.steps: 8
+      sampler.cfg: 3.5
+    preview:
+      video.width: 1280
+      video.height: 720
+      video.frames: 81
+      sampler.steps: 15
+      sampler.cfg: 5.0
+    final:
+      video.width: 1920
+      video.height: 1088
+      video.frames: 121
+      sampler.steps: 25
+      sampler.cfg: 5.0
+  notes: Placeholder entry. Verify the exact model, license, and node parameters before enabling the video stage.

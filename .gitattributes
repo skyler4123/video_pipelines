@@ -1,0 +1,38 @@
+* text=auto eol=lf
+
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+*.py text eol=lf
+*.sh text eol=lf
+
+# Small tracked inputs. Install Git LFS before adding large refs,
+# or use an external asset store and keep only hashes in manifests.
+projects/*/refs/**/*.png filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.webp filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.psd filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.exr filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.tif filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.tiff filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.wav filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.mp3 filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.flac filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.cube filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.otf filter=lfs diff=lfs merge=lfs -text
+projects/*/refs/**/*.ttf filter=lfs diff=lfs merge=lfs -text
+
+shared/**/*.png filter=lfs diff=lfs merge=lfs -text
+shared/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+shared/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+shared/**/*.webp filter=lfs diff=lfs merge=lfs -text
+shared/**/*.psd filter=lfs diff=lfs merge=lfs -text
+shared/**/*.exr filter=lfs diff=lfs merge=lfs -text
+shared/**/*.wav filter=lfs diff=lfs merge=lfs -text
+shared/**/*.mp3 filter=lfs diff=lfs merge=lfs -text
+shared/**/*.flac filter=lfs diff=lfs merge=lfs -text
+shared/**/*.cube filter=lfs diff=lfs merge=lfs -text
+shared/**/*.otf filter=lfs diff=lfs merge=lfs -text
+shared/**/*.ttf filter=lfs diff=lfs merge=lfs -text

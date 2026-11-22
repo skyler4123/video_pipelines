@@ -1,0 +1,11 @@
+{
+  "1": {
+    "class_type": "Note",
+    "inputs": {
+      "text": "Placeholder video workflow. Replace this file with an API-format image-to-video graph that matches your installed models and custom nodes. Keep stable _meta.title values on the nodes you map in workflow.map.yaml."
+    },
+    "_meta": {
+      "title": "README"
+    }
+  }
+}

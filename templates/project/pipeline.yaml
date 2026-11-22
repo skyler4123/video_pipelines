@@ -1,0 +1,25 @@
+schema: 1
+stages:
+  - id: keyframe
+    adapter: comfyui
+    action: generate
+    workflow: stages/keyframe/workflow.api.json
+    map: stages/keyframe/workflow.map.yaml
+    model: sdxl-base-1.0
+    enabled: true
+
+  - id: video
+    adapter: comfyui
+    action: generate
+    workflow: stages/video/workflow.api.json
+    map: stages/video/workflow.map.yaml
+    model: wan2.2-i2v-a14b
+    depends_on: [keyframe]
+    enabled: false
+    notes: Replace the placeholder video workflow with your installed image-to-video graph before enabling this stage.
+
+  - id: qc
+    adapter: ffmpeg
+    action: qc
+    depends_on: [keyframe]
+    enabled: true

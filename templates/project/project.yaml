@@ -1,0 +1,15 @@
+schema: 1
+id: __PROJECT_ID__
+title: "__PROJECT_TITLE__"
+status: active
+owner: "__OWNER__"
+description: |
+  Replace this with the project brief, audience, visual style, and delivery targets.
+defaults:
+  profile: animatic
+  pipeline: pipeline.yaml
+variants:
+  master:
+    aspect: "16:9"
+    width: 1920
+    height: 1080

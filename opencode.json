@@ -1,0 +1,17 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "permissions": [
+    { "action": "edit", "resource": "projects/*/assets/*", "effect": "deny" },
+    { "action": "edit", "resource": "projects/*/deliverables/*", "effect": "deny" },
+    { "action": "edit", "resource": "projects/*/state/*", "effect": "deny" },
+    { "action": "edit", "resource": "models/*", "effect": "deny" },
+    { "action": "edit", "resource": ".env", "effect": "deny" },
+    { "action": "shell", "resource": "*", "effect": "ask" },
+    { "action": "shell", "resource": "./vp validate *", "effect": "allow" },
+    { "action": "shell", "resource": "./vp plan *", "effect": "allow" },
+    { "action": "shell", "resource": "./vp doctor *", "effect": "allow" },
+    { "action": "shell", "resource": "git status *", "effect": "allow" },
+    { "action": "shell", "resource": "git diff *", "effect": "allow" },
+    { "action": "shell", "resource": "git push *", "effect": "deny" }
+  ]
+}

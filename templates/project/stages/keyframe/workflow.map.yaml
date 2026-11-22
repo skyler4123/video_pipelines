@@ -1,0 +1,32 @@
+schema: 1
+params:
+  model.checkpoint:
+    node_title: CHECKPOINT
+    input: ckpt_name
+  prompt.positive:
+    node_title: POSITIVE_PROMPT
+    input: text
+  prompt.negative:
+    node_title: NEGATIVE_PROMPT
+    input: text
+  image.width:
+    node_title: IMAGE_SIZE
+    input: width
+  image.height:
+    node_title: IMAGE_SIZE
+    input: height
+  sampler.seed:
+    node_title: SAMPLER
+    input: seed
+  sampler.steps:
+    node_title: SAMPLER
+    input: steps
+  sampler.cfg:
+    node_title: SAMPLER
+    input: cfg
+  sampler.sampler_name:
+    node_title: SAMPLER
+    input: sampler_name
+  output.prefix:
+    node_title: SAVE_IMAGE
+    input: filename_prefix

@@ -1,0 +1,43 @@
+# Working media
+projects/**/assets/
+projects/**/deliverables/
+projects/**/state/
+projects/**/runs/**/outputs/
+
+# Models and tool installs
+models/
+comfyui/
+custom_nodes/
+
+# Video/model binaries
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.webm
+*.safetensors
+*.gguf
+*.ckpt
+*.pth
+*.bin
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python and editor noise
+__pycache__/
+*.py[cod]
+.venv/
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.log
+*.tmp
+*.partial
+
+# OS files
+.DS_Store
+Thumbs.db

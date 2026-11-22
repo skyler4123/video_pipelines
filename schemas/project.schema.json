@@ -1,0 +1,112 @@
+{
+  "$defs": {
+    "ProjectDefaults": {
+      "additionalProperties": false,
+      "properties": {
+        "profile": {
+          "default": "animatic",
+          "title": "Profile",
+          "type": "string"
+        },
+        "pipeline": {
+          "default": "pipeline.yaml",
+          "title": "Pipeline",
+          "type": "string"
+        }
+      },
+      "title": "ProjectDefaults",
+      "type": "object"
+    },
+    "Variant": {
+      "additionalProperties": false,
+      "properties": {
+        "aspect": {
+          "title": "Aspect",
+          "type": "string"
+        },
+        "width": {
+          "title": "Width",
+          "type": "integer"
+        },
+        "height": {
+          "title": "Height",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "aspect",
+        "width",
+        "height"
+      ],
+      "title": "Variant",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "default": 1,
+      "title": "Schema",
+      "type": "integer"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "status": {
+      "default": "active",
+      "enum": [
+        "active",
+        "paused",
+        "archived"
+      ],
+      "title": "Status",
+      "type": "string"
+    },
+    "owner": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Owner"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "defaults": {
+      "$ref": "#/$defs/ProjectDefaults"
+    },
+    "variants": {
+      "additionalProperties": {
+        "$ref": "#/$defs/Variant"
+      },
+      "title": "Variants",
+      "type": "object"
+    }
+  },
+  "required": [
+    "id",
+    "title"
+  ],
+  "title": "Project",
+  "type": "object",
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

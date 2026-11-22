@@ -1,0 +1,17 @@
+schema: 1
+id: demo_01
+title: "Demo Product Teaser"
+status: active
+owner: "skyler"
+description: |
+  Demo project for the control plane. It renders a still keyframe with a
+  standard ComfyUI SDXL graph. The video stage is disabled and contains a
+  placeholder graph; replace it with your installed image-to-video workflow.
+defaults:
+  profile: animatic
+  pipeline: pipeline.yaml
+variants:
+  master:
+    aspect: "16:9"
+    width: 1920
+    height: 1080

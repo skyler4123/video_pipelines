@@ -1,0 +1,24 @@
+comfyui:
+  kind: local
+  endpoint: "${COMFYUI_URL:-http://127.0.0.1:8188}"
+  image: null
+  version: null
+  custom_nodes_lock: registry/comfyui-nodes.lock
+  notes: Pin the ComfyUI container image digest and custom-node commits before production.
+
+ffmpeg:
+  kind: cli
+  version: ">=6"
+  notes: Used for QC and, later, assembly/encode stages.
+
+diffusers:
+  kind: local-python
+  notes: Stub adapter. Implement in runner/adapters/diffusers.py when needed.
+
+hosted_api:
+  kind: hosted
+  notes: Stub adapter for provider APIs. Record request ids and cost in run manifests.
+
+mock:
+  kind: test
+  notes: Non-rendering adapter for testing the control plane. Never use for final output.

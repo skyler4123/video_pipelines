@@ -1,0 +1,21 @@
+schema: 1
+id: __SHOT_ID__
+title: "__SHOT_TITLE__"
+status: draft
+refs: {}
+render:
+  profile: animatic
+  seed: 123456
+prompt:
+  positive: |
+    A clean product hero shot on a neutral background, soft studio lighting,
+    subtle camera push-in, minimal motion artifacts.
+  negative: |
+    warped product, text artifacts, flicker, low quality
+stages:
+  keyframe:
+    model: sdxl-base-1.0
+    output: assets/__SHOT_ID__/keyframe/v001
+qc:
+  width: 768
+  height: 768
