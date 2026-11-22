@@ -1,0 +1,165 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+COMFYUI_HOME="${COMFYUI_HOME:-$HOME/ComfyUI}"
+COMFYUI_VENV="${COMFYUI_VENV:-$COMFYUI_HOME/venv}"
+COMFYUI_LISTEN="${COMFYUI_LISTEN:-0.0.0.0}"
+COMFYUI_PORT="${COMFYUI_PORT:-8188}"
+
+UPDATE=0
+CPU=0
+FORCE_GPU=0
+USE_VENV=1
+PASSTHROUGH=()
+
+usage() {
+  cat <<EOF
+Usage: bin/comfy [options] [-- extra ComfyUI args]
+
+Options:
+  --update           git pull --ff-only, then install requirements
+  --cpu              force CPU mode
+  --gpu              skip the CPU fallback and let ComfyUI auto-detect
+  --listen ADDR      listen address (default: 0.0.0.0)
+  --port PORT        port (default: 8188)
+  --no-venv          use python3 from PATH instead of the venv
+  -h, --help         show this help
+
+Environment:
+  COMFYUI_HOME       ComfyUI checkout (default: ~/ComfyUI)
+  COMFYUI_VENV       virtualenv (default: \$COMFYUI_HOME/venv)
+  COMFYUI_LISTEN     default listen address
+  COMFYUI_PORT       default port
+
+By default the script checks PyTorch for a CUDA/ROCm/XPU/MPS device and
+adds --cpu when none is available. Use --gpu to skip that check.
+
+Security:
+  0.0.0.0 binds every network interface. ComfyUI has no authentication.
+  Restrict port 8188 with a firewall or a private network/VPN, and do not
+  forward it directly from the internet. Use --listen 127.0.0.1 to restrict
+  access to this machine only.
+EOF
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --update)
+      UPDATE=1
+      shift
+      ;;
+    --cpu)
+      CPU=1
+      shift
+      ;;
+    --gpu)
+      FORCE_GPU=1
+      shift
+      ;;
+    --listen)
+      [[ $# -ge 2 ]] || { echo "error: --listen needs a value" >&2; exit 2; }
+      COMFYUI_LISTEN="$2"
+      shift 2
+      ;;
+    --port)
+      [[ $# -ge 2 ]] || { echo "error: --port needs a value" >&2; exit 2; }
+      COMFYUI_PORT="$2"
+      shift 2
+      ;;
+    --no-venv)
+      USE_VENV=0
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --)
+      shift
+      PASSTHROUGH+=("$@")
+      break
+      ;;
+    *)
+      PASSTHROUGH+=("$1")
+      shift
+      ;;
+  esac
+done
+
+[[ -d "$COMFYUI_HOME" ]] || {
+  echo "error: ComfyUI not found at $COMFYUI_HOME" >&2
+  echo "set COMFYUI_HOME or install ComfyUI there" >&2
+  exit 1
+}
+[[ -f "$COMFYUI_HOME/main.py" ]] || {
+  echo "error: $COMFYUI_HOME/main.py not found" >&2
+  exit 1
+}
+
+if [[ "$USE_VENV" -eq 1 ]]; then
+  PYTHON="$COMFYUI_VENV/bin/python"
+  [[ -x "$PYTHON" ]] || {
+    echo "error: virtualenv not found at $COMFYUI_VENV" >&2
+    echo "create it with: python3 -m venv \"$COMFYUI_VENV\"" >&2
+    exit 1
+  }
+else
+  PYTHON="$(command -v python3 || true)"
+  [[ -n "$PYTHON" ]] || { echo "error: python3 not found" >&2; exit 1; }
+fi
+
+cd "$COMFYUI_HOME"
+
+if [[ "$UPDATE" -eq 1 ]]; then
+  [[ -d .git ]] || {
+    echo "error: $COMFYUI_HOME is not a git checkout" >&2
+    exit 1
+  }
+  git pull --ff-only
+  "$PYTHON" -m pip install -r requirements.txt pyyaml
+fi
+
+if [[ "$CPU" -eq 0 && "$FORCE_GPU" -eq 0 ]]; then
+  if ! "$PYTHON" - >/dev/null 2>&1 <<'PY'
+import sys
+try:
+    import torch
+except Exception:
+    sys.exit(1)
+
+ok = torch.cuda.is_available()
+if hasattr(torch, "xpu") and torch.xpu.is_available():
+    ok = True
+if hasattr(torch.backends, "mps") and torch.backends.mps.is_available():
+    ok = True
+sys.exit(0 if ok else 1)
+PY
+  then
+    CPU=1
+    echo "No CUDA/ROCm/XPU/MPS device detected; using --cpu." >&2
+  fi
+fi
+
+ARGS=(main.py --listen "$COMFYUI_LISTEN" --port "$COMFYUI_PORT")
+if [[ "$CPU" -eq 1 ]]; then
+  ARGS+=(--cpu)
+fi
+if [[ ${#PASSTHROUGH[@]} -gt 0 ]]; then
+  ARGS+=("${PASSTHROUGH[@]}")
+fi
+
+echo "ComfyUI: $COMFYUI_HOME"
+echo "Python:  $PYTHON"
+
+if [[ "$COMFYUI_LISTEN" == "0.0.0.0" || "$COMFYUI_LISTEN" == "::" ]]; then
+  echo "Bind:    all interfaces ($COMFYUI_LISTEN)"
+  echo "Local:   http://127.0.0.1:$COMFYUI_PORT"
+  echo "Remote:  http://<host-ip>:$COMFYUI_PORT"
+  echo "runner:  export COMFYUI_URL=http://127.0.0.1:$COMFYUI_PORT"
+  echo "warning: ComfyUI has no authentication; restrict port $COMFYUI_PORT with a firewall or VPN." >&2
+else
+  echo "URL:     http://$COMFYUI_LISTEN:$COMFYUI_PORT"
+  echo "runner:  export COMFYUI_URL=http://$COMFYUI_LISTEN:$COMFYUI_PORT"
+fi
+
+exec "$PYTHON" "${ARGS[@]}"

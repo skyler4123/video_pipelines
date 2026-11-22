@@ -54,6 +54,8 @@ video_pipelines/
 ├── .gitignore
 ├── .env.example
 ├── vp                        # CLI wrapper
+├── bin/comfy                 # start the external ComfyUI checkout
+├── ops/systemd/              # persistent ComfyUI service template
 ├── docs/
 │   ├── conventions.md
 │   ├── asset-policy.md
@@ -93,9 +95,52 @@ video_pipelines/
    API-format ComfyUI graph by stable node title.
 6. The runner writes a manifest with input/output hashes.
 
+## Starting ComfyUI
+
+ComfyUI lives outside this repo. The default checkout is `~/ComfyUI`, the
+default virtualenv is `~/ComfyUI/venv`, and the default bind address is
+`0.0.0.0:8188`.
+
+```bash
+bin/comfy
+```
+
+The script checks PyTorch for a CUDA/ROCm/XPU/MPS device. If there is none, it
+adds `--cpu` automatically. On this CPU-only workstation, plain `bin/comfy`
+behaves like the old `--cpu` command.
+
+Use:
+
+- `http://127.0.0.1:8188` from this machine,
+- `http://<machine-lan-ip>:8188` or the VPN/Tailscale address from another
+  machine.
+
+Force a mode or restrict access explicitly:
+
+```bash
+bin/comfy --cpu
+bin/comfy --gpu
+bin/comfy --listen 127.0.0.1
+```
+
+It does **not** run `git pull` unless you ask:
+
+```bash
+bin/comfy --update
+```
+
+ComfyUI has no built-in authentication. Binding `0.0.0.0` exposes it to every
+network interface. Restrict port `8188` with a firewall or a private VPN, and do
+not forward it directly from the internet. See `ops/systemd/` for a persistent
+worker service.
+
+Override the checkout or venv with exported environment variables (or source
+`.env` after copying `.env.example`): `COMFYUI_HOME` and `COMFYUI_VENV`.
+
 ## ComfyUI setup
 
-1. Set `COMFYUI_URL` (default `http://127.0.0.1:8188`).
+1. Start ComfyUI with `bin/comfy` (or your GPU service) and set
+   `COMFYUI_URL` if it is not the default `http://127.0.0.1:8188`.
 2. Put the exact checkpoint filename in the model preset or shot params.
 3. Export the workflow in **API format** to
    `projects/<project>/stages/<stage>/workflow.api.json`.
