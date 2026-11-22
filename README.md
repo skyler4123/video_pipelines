@@ -57,6 +57,7 @@ video_pipelines/
 ├── bin/comfy                 # start the external ComfyUI checkout
 ├── ops/systemd/              # persistent ComfyUI service template
 ├── docs/
+│   ├── concepts.md
 │   ├── conventions.md
 │   ├── asset-policy.md
 │   ├── comfyui.md
@@ -94,6 +95,9 @@ video_pipelines/
 5. `stages/<stage>/workflow.map.yaml` injects parameters into the
    API-format ComfyUI graph by stable node title.
 6. The runner writes a manifest with input/output hashes.
+
+See `docs/concepts.md` for the canonical definition of projects, shots, stages,
+workflows, and maps.
 
 ## Starting ComfyUI
 

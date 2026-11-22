@@ -3,7 +3,7 @@
 Project id: `demo_01`
 
 This is the worked example for the workspace. It is a scaffold, not a finished
-advertisement.
+advertisement. See `docs/concepts.md` for the project/shot/stage vocabulary.
 
 ## Start
 
