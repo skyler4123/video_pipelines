@@ -27,6 +27,7 @@
 ## Rendering
 
 - Profiles: `animatic | preview | final`; resolve from `registry/models.yaml`.
+- ComfyUI runs outside this repo; start it with `bin/comfy` only when the user asks.
 - Use fixed seeds for approved work; record the actual seed in the run manifest.
 - Ask before final/upscale/interpolation or jobs longer than 10 minutes.
 - One job per GPU. Never overwrite an existing version.

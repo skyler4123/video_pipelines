@@ -1,5 +1,8 @@
 # Conventions
 
+See `concepts.md` for the vocabulary: project, shot, stage, workflow, and
+workflow map.
+
 ## Namespace contract
 
 - Project id: `^[a-z][a-z0-9_]{2,31}$`. Lowercase, immutable, used in every path.

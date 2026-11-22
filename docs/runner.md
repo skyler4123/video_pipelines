@@ -36,6 +36,11 @@ nodes, and it does not edit ComfyUI graphs.
 ./vp render demo_01/s010 --stage keyframe --dry-run
 ```
 
+ComfyUI is external. Start it with `bin/comfy` (it falls back to `--cpu` when no
+accelerator is available), or install the persistent service from
+`ops/systemd/`. The runner reaches it through `COMFYUI_URL`
+(default `http://127.0.0.1:8188`).
+
 It resolves:
 
 - the model preset for the selected profile,
